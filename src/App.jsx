@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -19,8 +21,16 @@ class App extends Component {
     });
   }
 
-  onSubmitHandler() {
-    console.log('HI', this.state.url)
+  onSubmitHandler(e) {
+    e.preventDefault();
+    const url = this.state.url;
+    axios.post(`${process.env.REACT_APP_URL}/url`, { url })
+    .then(() => {
+      this.setState({ url: '' });
+    })
+    .catch((err) => {
+      throw ('err', err);
+    });
   }
 
   render() {
@@ -30,13 +40,16 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>URL shortener</h2>
         </div>
-        <div><input
-          className="input-field"
-          value={this.state.url}
-          onChange={this.onChangeHandler}
-        />
-        </div>
-        <button onClick={this.onSubmitHandler}>Get shortened URL</button>
+        <form onSubmit={this.onSubmitHandler}>
+          <input
+            type="text"
+            name="url"
+            className="input-field"
+            value={this.state.url}
+            onChange={this.onChangeHandler}
+          />
+          <input type="submit" value="Get shortened URL" />
+        </form>
       </div>
     );
   }

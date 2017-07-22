@@ -49,26 +49,6 @@ app.post('/', (req, res) => {
   });
 });
 
-app.route('/:id').all(function (req, res) {
-    // Get ID
-    var id = req.params.id.trim();
-    console.log('idddd', id)
-
-    // Look up the URL
-    client.get(id, function (err, reply) {
-        if (!err && reply) {
-            // Redirect user to it
-            res.status(301);
-            res.set('Location', reply);
-            res.send();
-        } else {
-            // Confirm no such link in database
-            res.status(404);
-            res.render('error');
-        }
-    });
-});
-
 // app.get('/:id', (req, res) => {
 //   const shortUrl = req.params.id;
 //   console.log('short url', shortUrl)

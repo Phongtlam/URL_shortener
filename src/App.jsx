@@ -27,7 +27,13 @@ class App extends Component {
     e.preventDefault();
     const url = this.state.url;
     const baseUrl = (process.env.NODE_ENV === 'development') ? `${process.env.REACT_APP_URL}/` : '/';
-    axios.post(baseUrl, { url })
+    fetch(baseUrl, { url }, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
     .then((res) => {
       const data = res.data;
       console.log('data from server', data)
@@ -46,7 +52,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>URL shorten</h2>
+          <h2>URL shortener</h2>
         </div>
         <form onSubmit={this.onSubmitHandler}>
           <input
@@ -60,9 +66,9 @@ class App extends Component {
         </form>
         <div>This is your URLs:</div>
         <br />
-        {this.state.newUrl.map((entry, i) =>
+        {/* {this.state.newUrl.map((entry, i) =>
           <List key={i} entry={entry} />,
-        )}
+        )} */}
       </div>
     );
   }

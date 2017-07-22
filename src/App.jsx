@@ -3,12 +3,14 @@ import axios from 'axios';
 
 import logo from './logo.svg';
 import './App.css';
+import List from './List';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       url: '',
+      newUrl: [],
     };
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -24,9 +26,13 @@ class App extends Component {
   onSubmitHandler(e) {
     e.preventDefault();
     const url = this.state.url;
-    axios.post(`${process.env.REACT_APP_URL}/url`, { url })
-    .then(() => {
-      this.setState({ url: '' });
+    axios.post(`${process.env.REACT_APP_URL}/`, { url })
+    .then((res) => {
+      const data = res.data;
+      this.setState(prevState => ({
+        newUrl: prevState.newUrl.concat(data),
+        url: '',
+      }));
     })
     .catch((err) => {
       throw ('err', err);
@@ -50,6 +56,11 @@ class App extends Component {
           />
           <input type="submit" value="Get shortened URL" />
         </form>
+        <div>This is your URLs:</div>
+        <br />
+        {this.state.newUrl.map((entry, i) =>
+          <List key={i} entry={entry} />,
+        )}
       </div>
     );
   }

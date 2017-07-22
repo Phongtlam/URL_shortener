@@ -26,7 +26,8 @@ class App extends Component {
   onSubmitHandler(e) {
     e.preventDefault();
     const url = this.state.url;
-    axios.post(`${process.env.REACT_APP_URL}/`, { url })
+    const baseUrl = (process.env.NODE_ENV === 'development') ? `${process.env.REACT_APP_URL}/` : '/';
+    axios.post(baseUrl, { url })
     .then((res) => {
       const data = res.data;
       this.setState(prevState => ({

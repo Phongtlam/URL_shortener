@@ -36,8 +36,19 @@ app.post('/', (req, res) => {
 });
 
 app.get('/:uid', (req, res) => {
-  console.log('id in server', req.params.uid);
-})
+  const shortUrl = req.params;
+  console.log('id in server', shortUrl);
+  client.get(shortUrl, (err, reply) => {
+    if (!err && reply) {
+      // Redirect user to it
+      res.redirect(reply);
+    } else {
+      // Confirm no such link in database
+      res.status(404);
+      res.end('error');
+    }
+  });
+});
 
 // app.all('/*', (req, res) => {
 //   console.log('req is', req)

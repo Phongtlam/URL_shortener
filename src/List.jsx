@@ -10,7 +10,7 @@ const List = (props) => {
       <div>Original: {props.entry.orig}</div>
       <br />
     </div>
-  );
+  )
 };
 
 export default List;

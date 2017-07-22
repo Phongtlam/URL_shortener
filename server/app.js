@@ -2,10 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const shortid = require('shortid');
+const redis = require('redis');
 
 const app = express();
 require('dotenv').load();
-const client = require('redis').createClient(process.env.REACT_APP_REDIS);
+
+const client = redis.createClient(process.env.REACT_APP_REDIS);
 
 app.use(bodyParser.urlencoded({
   extended: true,
@@ -27,20 +29,33 @@ client.on('connect', () => {
   console.log('redis connect');
 });
 
+// client.get('', (err, replies) => {
+//   if (err) {
+//     console.log('err', err);
+//   } else {
+//     replies.forEach((reply) => {
+//       console.log(reply);
+//     })
+//   }
+// })
+
 app.post('/', (req, res) => {
   const shorten = shortid.generate();
   const orig = req.body.url;
-  client.set(shorten, orig);
-  const retObj = { shorten, orig };
-  res.end(JSON.stringify(retObj));
+  console.log('url fixing', shorten, orig)
+  client.set(shorten, orig, () => {
+    const retObj = { shorten, orig };
+    res.end(JSON.stringify(retObj));
+  });
 });
 
-app.get('/:uid', (req, res) => {
-  const shortUrl = req.params;
+app.get('/id/:uid', (req, res) => {
+  const shortUrl = req.params.uid;
   console.log('id in server', shortUrl);
   client.get(shortUrl, (err, reply) => {
     if (!err && reply) {
       // Redirect user to it
+      console.log('reply data', reply)
       res.redirect(reply);
     } else {
       // Confirm no such link in database

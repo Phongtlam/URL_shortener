@@ -57,7 +57,7 @@ class App extends Component {
           />
           <input type="submit" value="Get shortened URL" />
         </form>
-        <div>This is your URLs:</div>
+        <div>This is the URLs:</div>
         <br />
         {this.state.newUrl.map((entry, i) =>
           <List key={i} entry={entry} />,

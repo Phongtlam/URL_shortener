@@ -30,6 +30,7 @@ class App extends Component {
     axios.post(baseUrl, { url })
     .then((res) => {
       const data = res.data;
+      console.log('data from server', data)
       this.setState(prevState => ({
         newUrl: prevState.newUrl.concat(data),
         url: '',
@@ -45,7 +46,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>URL shortener</h2>
+          <h2>URL shorten</h2>
         </div>
         <form onSubmit={this.onSubmitHandler}>
           <input
@@ -57,7 +58,7 @@ class App extends Component {
           />
           <input type="submit" value="Get shortened URL" />
         </form>
-        <div>This is the URLs:</div>
+        <div>This is your URLs:</div>
         <br />
         {this.state.newUrl.map((entry, i) =>
           <List key={i} entry={entry} />,

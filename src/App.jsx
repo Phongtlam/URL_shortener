@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import logo from './logo.svg';
 import './App.css';
@@ -25,18 +24,16 @@ class App extends Component {
 
   onSubmitHandler(e) {
     e.preventDefault();
-    const url = this.state.url;
     const baseUrl = (process.env.NODE_ENV === 'development') ? `${process.env.REACT_APP_URL}/` : '/';
-    fetch(baseUrl, { url }, {
+    fetch(baseUrl, {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: this.state.url }),
     })
-    .then((res) => {
-      const data = res.data;
-      console.log('data from server', data)
+    .then(data => data.json())
+    .then((data) => {
+      console.log('readable', data);
       this.setState(prevState => ({
         newUrl: prevState.newUrl.concat(data),
         url: '',
@@ -52,7 +49,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>URL shortener</h2>
+          <h2>URL shorten</h2>
         </div>
         <form onSubmit={this.onSubmitHandler}>
           <input
@@ -66,9 +63,9 @@ class App extends Component {
         </form>
         <div>This is your URLs:</div>
         <br />
-        {/* {this.state.newUrl.map((entry, i) =>
+        {this.state.newUrl.map((entry, i) =>
           <List key={i} entry={entry} />,
-        )} */}
+        )}
       </div>
     );
   }

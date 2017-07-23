@@ -14,6 +14,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+if (process.env.NODE_ENV === 'production') {
+}
 app.use(express.static(path.resolve(__dirname, '..', 'build')));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
@@ -49,10 +51,17 @@ app.post('/', (req, res) => {
   });
 });
 
-// app.get('/:id', (req, res) => {
+app.route('/user/:name').all((req, res) => {
+  console.log('HIIIII', req.params.name);
+  res.send({ name: req.params.name });
+})
+
+// app.route('/ilike/:id').all((req, res) => {
 //   const shortUrl = req.params.id;
 //   console.log('short url', shortUrl)
-//   res.redirect('https://matthewdaly.co.uk/blog/2014/11/09/building-a-url-shortener-with-node-dot-js-and-redis/')
+//   // res.send('hello from', shortUrl);
+//   res.render('err')
+//   // res.redirect('https://matthewdaly.co.uk/blog/2014/11/09/building-a-url-shortener-with-node-dot-js-and-redis/');
 //   // console.log('id in server', shortUrl);
 //   // client.get(shortUrl, (err, reply) => {
 //   //   if (!err && reply) {
@@ -67,8 +76,5 @@ app.post('/', (req, res) => {
 //   // });
 // });
 
-// app.all('/*', (req, res) => {
-//   console.log('req is', req)
-// })
 
 module.exports = app;

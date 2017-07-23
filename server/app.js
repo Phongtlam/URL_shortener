@@ -15,11 +15,11 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, '..', 'build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  });
 }
-app.use(express.static(path.resolve(__dirname, '..', 'build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-});
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -44,37 +44,32 @@ client.on('connect', () => {
 app.post('/', (req, res) => {
   const shorten = shortid.generate();
   const orig = req.body.url;
-  console.log('shorten', shorten)
+  console.log('shorten', shorten, orig)
+  console.log(typeof(shorten), typeof(orig))
   client.set(shorten, orig, () => {
     const retObj = { shorten, orig };
     res.end(JSON.stringify(retObj));
   });
+  client.get(shorten, (err, reply) => {
+    console.log('saved data url', shorten, reply);
+  })
 });
 
-app.route('/user/:name').all((req, res) => {
-  console.log('HIIIII', req.params.name);
-  res.send({ name: req.params.name });
-})
-
-// app.route('/ilike/:id').all((req, res) => {
-//   const shortUrl = req.params.id;
-//   console.log('short url', shortUrl)
-//   // res.send('hello from', shortUrl);
-//   res.render('err')
-//   // res.redirect('https://matthewdaly.co.uk/blog/2014/11/09/building-a-url-shortener-with-node-dot-js-and-redis/');
-//   // console.log('id in server', shortUrl);
-//   // client.get(shortUrl, (err, reply) => {
-//   //   if (!err && reply) {
-//   //     // Redirect user to it
-//   //     console.log('reply data', reply)
-//   //     res.redirect(reply);
-//   //   } else {
-//   //     // Confirm no such link in database
-//   //     res.status(404);
-//   //     res.end('error');
-//   //   }
-//   // });
-// });
+app.route('/:url').all((req, res) => {
+  const shortUrl = req.params.url;
+  console.log('shortUrl', shortUrl);
+  client.get(shortUrl, (err, reply) => {
+    console.log('reply data', reply)
+    if (reply) {
+      // Redirect user to it
+      res.redirect(reply);
+    } else {
+      // Confirm no such link in database
+      res.status(404);
+      res.end('error');
+    }
+  });
+});
 
 
 module.exports = app;

@@ -14,12 +14,12 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.resolve(__dirname, '..', 'build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-  });
-}
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.resolve(__dirname, '..', 'build')));
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+//   });
+// }
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -30,16 +30,6 @@ app.use((req, res, next) => {
 client.on('connect', () => {
   console.log('redis connect');
 });
-
-// client.get('', (err, replies) => {
-//   if (err) {
-//     console.log('err', err);
-//   } else {
-//     replies.forEach((reply) => {
-//       console.log(reply);
-//     })
-//   }
-// })
 
 app.post('/', (req, res) => {
   const shorten = shortid.generate();

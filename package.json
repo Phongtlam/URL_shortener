@@ -17,10 +17,11 @@
   "scripts": {
     "start": "react-scripts start",
     "nodemon": "nodemon server/index.js",
+    "server": "node server/index.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "heroku-postbuild": "yarn build && yarn run nodemon"
+    "heroku-postbuild": "yarn build && yarn server"
   },
   "proxy": "https://r-short.herokuapp.com",
   "homepage" : "https://r-short.herokuapp.com",

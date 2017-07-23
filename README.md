@@ -1,6 +1,9 @@
 ## URL shortener service
 
-[Link](https://r-short.herokuapp.com/): https://r-short.herokuapp.com/
+Link: https://r-short.herokuapp.com/
+![url-shortie](./logo.png)
 
-- Node.Js and React.Js
-- Redis as in memory database
+- Used React.JS to create basic and intuitive front end system
+- Custom CSS and basic layout with Bootstrap for UI design
+- Engineered back end server with Node/Express
+- Redis as a storage solution

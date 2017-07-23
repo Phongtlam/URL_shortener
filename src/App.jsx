@@ -33,7 +33,6 @@ class App extends Component {
     })
     .then(data => data.json())
     .then((data) => {
-      console.log('readable', data);
       this.setState(prevState => ({
         newUrl: prevState.newUrl.concat(data),
         url: '',
@@ -49,18 +48,28 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>URL shorten</h2>
+          <h2>URL shortener</h2>
         </div>
-        <form onSubmit={this.onSubmitHandler}>
-          <input
-            type="text"
-            name="url"
-            className="input-field"
-            value={this.state.url}
-            onChange={this.onChangeHandler}
-          />
-          <input type="submit" value="Get shortened URL" />
-        </form>
+        <nav className="navbar navbar-default">
+          <form
+            className="navbar-form navbar-search"
+            onSubmit={this.onSubmitHandler}
+          >
+            <input
+              type="text"
+              name="url"
+              className="input-field"
+              value={this.state.url}
+              onChange={this.onChangeHandler}
+            />
+            <button
+              className="btn btn-search btn-info"
+              type="submit"
+            ><span className="glyphicon glyphicon-search" />
+              <span className="label-icon"> Get shortened URL</span>
+            </button>
+          </form>
+        </nav>
         <div>This is your URLs:</div>
         <br />
         {this.state.newUrl.map((entry, i) =>

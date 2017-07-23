@@ -7,13 +7,6 @@
   height: 80px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
 .App-intro {
   font-size: large;
 }
@@ -27,4 +20,11 @@
   width: 500px;
   display: inline-block;
   margin: 10px;
+}
+
+.navbar .navbar-search .dropdown-menu { min-width: 25px; }
+.btn-outline {
+    background-color: transparent;
+    color: inherit;
+    transition: all .5s;
 }

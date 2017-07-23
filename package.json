@@ -23,7 +23,6 @@
     "eject": "react-scripts eject",
     "heroku-postbuild": "yarn build && yarn server"
   },
-  "proxy": "https://r-short.herokuapp.com",
   "homepage" : "https://r-short.herokuapp.com",
   "engines": {
     "node": "8.1.4"

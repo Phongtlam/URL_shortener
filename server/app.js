@@ -15,11 +15,12 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.resolve(__dirname, '..', 'build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
-  });
 }
+// app.use(express.static(path.resolve(__dirname, '..', 'public')));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
+// });
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -60,5 +61,8 @@ app.route('/:url').all((req, res) => {
   });
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 module.exports = app;

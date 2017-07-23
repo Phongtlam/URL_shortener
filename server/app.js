@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 // app.get('*', (req, res) => {
 //   res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'));
 // });
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '/build')));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -62,7 +62,7 @@ app.route('/:url').all((req, res) => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  res.sendFile(path.join(__dirname+'build/index.html'));
 });
 
 module.exports = app;

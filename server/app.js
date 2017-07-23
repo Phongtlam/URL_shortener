@@ -45,7 +45,6 @@ app.post('/', (req, res) => {
   const shorten = shortid.generate();
   const orig = req.body.url;
   console.log('shorten', shorten, orig)
-  console.log(typeof(shorten), typeof(orig))
   client.set(shorten, orig, () => {
     const retObj = { shorten, orig };
     res.end(JSON.stringify(retObj));
